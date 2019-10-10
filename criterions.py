@@ -93,6 +93,97 @@ class HurwitsCriterion:
 		return True		
 
 
+class Hodograph:
+	def __init__(self, data):
+		self.k_X = []
+		self.k_Y = []
+		self.data = data
+
+	def replace_s_with_iw(self):
+		n = len(self.data)
+		for i in range(n - 3, -1, -4):
+			self.data[i] = -self.data[i]
+		for i in range(n - 4, -1, -4):
+			self.data[i] = -self.data[i]
+
+		for i in range(n - 1, -1, -2):
+			self.k_X.append(self.data[i])
+			self.k_X.append(0)
+		for i in range(n - 2, -1, -2):
+			self.k_Y.append(0)
+			self.k_Y.append(self.data[i])
+
+		self.k_X.reverse()
+		self.k_Y.reverse()
+
+	def print_X_and_Y(self):
+		# Небольшие костыли с terms[3:] и terms[1] == '-'
+		print("\nПроведём замену D(s) = D(iw) и получим:")
+		print("X(w) = ", end="")
+		terms = ""
+		n = len(self.k_X)
+		for i in range(n):
+			if self.k_X[i] > 0:
+				terms += " + {}*w^{}".format(self.k_X[i], n - i - 1)
+			elif self.k_X[i] < 0:
+				terms += " - {}*w^{}".format(abs(self.k_X[i]),n - i - 1)
+		if terms[1] == "-":
+			print(terms, " = 0")
+		else:
+			print(terms[3:], " = 0")
+
+		print("Y(w) = ", end="")
+		terms = ""
+		n = len(self.k_Y)
+		for i in range(n):
+			if self.k_Y[i] > 0:
+				terms += " + {}*w^{}".format(self.k_Y[i], n - i - 1)
+			elif self.k_Y[i] < 0:
+				terms += " - {}*w^{}".format(abs(self.k_Y[i]), n - i - 1)
+		if terms[1] == "-":
+			print(terms, " = 0")
+		else:
+			print(terms[3:], " = 0")
+
+	def calc_w_roots(self):
+		self.w_X_roots = np.roots(self.k_X)
+		self.w_Y_roots = np.roots(self.k_Y)
+		self.w_X_roots = list(filter(lambda a: a.real >= 0 and a.imag == 0, self.w_X_roots))
+		self.w_Y_roots = list(filter(lambda a: a.real >= 0 and a.imag == 0, self.w_Y_roots))
+		print("\nНайдём корни w:")
+		print("по X = 0: ", self.w_X_roots)
+		print("по Y = 0: ", self.w_Y_roots)
+
+	def calc_X(self, w):
+		x = 0.0
+		n = len(self.k_X)
+		for i in range(n):
+			x += self.k_X[i]*w**(n - i - 1)
+		return x
+
+	def calc_Y(self, w):
+		y = 0.0
+		n = len(self.k_Y)
+		for i in range(n):
+			y += self.k_Y[i]*w**(n - i - 1)
+		return y
+
+	def build_table(self):
+		self.table = []
+		for w in self.w_X_roots:
+			self.table.append([w, self.calc_X(w), self.calc_Y(w)])
+		for w in self.w_Y_roots:
+			self.table.append([w, self.calc_X(w), self.calc_Y(w)])
+		self.table = sorted(self.table, key=lambda x: x[0])
+
+	def print_table(self):
+		newtable = [['w'] + ['X(w)'] + ['Y(w)']]
+		for row in self.table:
+			newtable.append(row)
+		print('\nТаблица для построения годографа: ')
+		pretty_print(newtable)
+
+
 def print_result(data):
 	print("Вычисление по алгебраическому критерию: ")
 	table = RausCriterion(data)
@@ -106,3 +197,13 @@ def print_result(data):
 	matrix = HurwitsCriterion(data)
 	matrix.calc_determinants()
 	print("Это устойчивая схема? {}".format(matrix.check_criterion()))
+
+	print("")
+
+	print("Вычисление по критерию Михайлова: ")
+	table = Hodograph(data)
+	table.replace_s_with_iw()
+	table.print_X_and_Y()
+	table.calc_w_roots()
+	table.build_table()
+	table.print_table()
