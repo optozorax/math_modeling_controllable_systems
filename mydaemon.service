@@ -4,7 +4,7 @@ Description=karman_server
 [Service]
 ExecStartPre=<absolute_path>/prescript
 ExecStart=<absolute_path>/criterions_server.py
-ExecStopPost=<absolute_path>/postscript
+ExecStopPost=<absolute_path>/prescript
 Restart=on-failure
 
 [Install]
