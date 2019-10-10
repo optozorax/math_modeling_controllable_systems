@@ -1,0 +1,10 @@
+./stop
+echo "Stopped"
+sleep 1
+./start
+echo "Started"
+sleep 1
+./status
+sleep 3
+echo "-------------------------------------------------------------------------------"
+./status

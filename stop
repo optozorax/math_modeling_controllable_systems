@@ -1,0 +1,2 @@
+systemctl stop mydaemon.service
+

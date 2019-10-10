@@ -1,0 +1,12 @@
+[Unit]
+Description=karman_server
+
+[Service]
+ExecStartPre=<absolute_path>/prescript
+ExecStart=<absolute_path>/criterions_server.py
+ExecStopPost=<absolute_path>/postscript
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+

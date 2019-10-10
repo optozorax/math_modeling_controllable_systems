@@ -4,12 +4,14 @@ import numpy as np
 
 
 def pretty_print(matrix):
-	t = Texttable()
+	t = Texttable(100000)
 	t.add_rows(matrix)
 	print(t.draw())
 
+
 def allocate_matrix(value, width, height):
 	return [[value for x in range(width)] for y in range(height)]
+
 
 class RausCriterion:
 	def __init__(self, data):
@@ -91,42 +93,7 @@ class HurwitsCriterion:
 		return True		
 
 
-class LeinardChipathCriterion:
-	def __init__(self, data):
-		self.n = len(data) - 1
-		self.matrix = allocate_matrix(0, self.n, self.n)
-		self.determinants = list()
-
-		for i in range(self.n):
-			for j in range(self.n):
-				diag_no = j + 1
-				diag_dist = j - i
-				pos = diag_no + diag_dist
-				if not(pos < 0 or pos >= len(data)):
-					self.matrix[i][j] = data[pos]
-
-	def calc_determinants(self):
-		numpy_matrix = np.array(self.matrix)
-		for i in range(1, self.n, 2):
-			minor = numpy_matrix[0:i, 0:i]
-			self.determinants.append(np.linalg.det(minor))
-
-			print(minor)
-			print("Determinant: ", self.determinants[-1])
-
-	def check_criterion(self):
-		for i in self.determinants:
-			if i <= 0:
-				return False
-		return True		
-
-
-def main():
-	#x = input("Введите коэффициенты многочлена B(s):\n")
-	#data = [int(i) for i in x.split()]
-
-	data = [1, 6, 15, 20, 15, 6, 1]
-	#data = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]
+def print_result(data):
 	print("Вычисление по алгебраическому критерию: ")
 	table = RausCriterion(data)
 	table.calc_table()
@@ -139,13 +106,3 @@ def main():
 	matrix = HurwitsCriterion(data)
 	matrix.calc_determinants()
 	print("Это устойчивая схема? {}".format(matrix.check_criterion()))
-
-	print("")
-
-	print("Вычисление по критерию Льенара-Шипара: ")
-	matrix = LeinardChipathCriterion(data)
-	matrix.calc_determinants()
-	print("Это устойчивая схема? {}".format(matrix.check_criterion()))
-
-if __name__ == "__main__":
-	main()
