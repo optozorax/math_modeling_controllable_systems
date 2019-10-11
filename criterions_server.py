@@ -24,6 +24,7 @@ class Worker(PrintServer):
         if self.path.startswith(self.prefix):
             data = self.parse_path(self.path)
             print_result(data)
+            print('</pre><img src="{path}.png"><pre>'.format(path=self.path))
         else:
             print("Request has no '{}'".format(prefix))
 
