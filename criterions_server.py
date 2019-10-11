@@ -10,6 +10,7 @@ from criterions import *
 from print_server import *
 
 import argparse
+import os
 
 
 class Worker(PrintServer):
@@ -21,18 +22,27 @@ class Worker(PrintServer):
         return data
 
     def work_text(self):
-        if self.path.startswith(self.prefix):
+        if self.path == "/index.html":
+            a = os.path.realpath(__file__)
+            a = a[:a.rfind('/')]
+            print(open(a + '/index.html').read())
+        elif self.path.startswith(self.prefix):
+            print("<pre>");
             data = self.parse_path(self.path)
             print_result(data)
-            print('</pre><img src="{path}.png"><pre>'.format(path=self.path))
+            print('</pre><img src="{path}.png" width="100%">'.format(path=self.path))
         else:
-            print("Request has no '{}'".format(prefix))
+            raise Exception("Request has no '{}'".format(self.prefix))
 
     def work_png(self):
         if self.path.startswith(self.prefix):
             data = self.parse_path(self.path[:-4])
-            
-            graph = draw_figure(data)
+
+            h = Hodograph(data)
+            h.replace_s_with_iw()
+            h.calc_w_roots()
+            h.build_table()
+            graph = h.draw_hodograph()
 
             buf = io.BytesIO()
             graph.savefig(buf, format='png')
@@ -42,7 +52,7 @@ class Worker(PrintServer):
 
             return result
         else:
-            raise Exception("Request has no '{}'".format(prefix))
+            raise Exception("Request has no '{}'".format(self.prefix))
 
 
 def parse_args():
@@ -58,3 +68,4 @@ def main():
 
 if __name__ == "__main__":
 	main()
+

@@ -185,6 +185,48 @@ class Hodograph:
 		print('\nТаблица для построения годографа: ')
 		pretty_print(newtable)
 
+	def draw_hodograph(self):
+		titleString = 'Годограф Михайлова'
+		saveName = 'hodograph'
+		fig, axes = plt.subplots() 
+		x = [row[1] for row in self.table]
+		y = [row[2] for row in self.table]
+		x_new = []
+		y_new = []
+		x_ticks = []
+		y_ticks = []
+		new_points = 4
+		for elem in x:
+			x_ticks += elem
+			x_ticks -= elem
+		for elem in y:
+			y_ticks += elem
+			y_ticks -= elem
+
+		new_points = 5
+		for i in range(len(x) - 1):
+			x_new += (np.arange(x[i], x[i+1], (x[i+1]-x[i]) / new_points).tolist())
+			y_new += (np.arange(y[i], y[i+1], (y[i+1]-y[i]) / new_points).tolist())
+		x_new.append( x[len(x) - 1] )
+		y_new.append( y[len(y) - 1] )
+
+		plt.plot(x_new, y_new)
+		for i in range(len(x)):
+			plt.scatter(x[i], y[i], c='black')
+
+		plt.title(titleString, fontsize=18)
+		plt.xlabel('X', fontsize=10)
+		plt.ylabel('Y', fontsize=10)
+		plt.xscale('symlog', linthreshy=0.2)
+		plt.yscale('symlog', linthreshy=0.2)
+		plt.xticks(x_ticks)
+		plt.yticks(y_ticks)
+		plt.axhline(0, color='grey')
+		plt.axvline(0, color='grey')
+		plt.tick_params(axis='both', labelsize=8)
+		plt.grid(alpha=0.4)
+		return plt
+
 
 def print_result(data):
 	np.set_printoptions(linewidth=100000)
@@ -211,10 +253,4 @@ def print_result(data):
 	table.calc_w_roots()
 	table.build_table()
 	table.print_table()
-
-
-def draw_figure(data):
-	plt.figure()
-	plt.plot(data)
-	plt.title("{}".format(data))
-	return plt
+	#table.draw_hodograph()

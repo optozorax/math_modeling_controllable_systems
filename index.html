@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<table><tr>
+	<td colspan="3">
+	<a href="https://github.com/optozorax/math_modeling_controllable_systems">Исходный код на github.</a>
+	</td>
+	</tr><tr>
+	<td>
+	<input id="input" type="text" value="1,4,6,4,1">
+	</td><td>
+	<button onclick="update();">calc</button>
+	</td><td>
+	<button onclick="clear();">clear</button>
+	</td>
+	</tr></table>
+	<div id="to_insert_criterion"></div>
+	<script>
+		function update() {
+			var text = document.getElementById('input').value;
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', '/calc_criterion/'+text, false);
+			xhr.send();
+
+			if (xhr.status != 200) {
+				alert(xhr.status + ': ' + xhr.statusText);
+			} else {
+				var elem = document.getElementById('to_insert_criterion');
+				elem.innerHTML = xhr.responseText;
+			}
+		}
+		function clear() {
+			var elem = document.getElementById('to_insert_criterion');
+			elem.innerHTML = '';
+		}
+	</script>
+</body>
+</html>

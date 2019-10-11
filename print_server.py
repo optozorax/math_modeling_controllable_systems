@@ -29,12 +29,12 @@ class PrintServer(http.server.SimpleHTTPRequestHandler):
             self.send_header('content-type','text/html; charset=utf-8')
             self.end_headers()
             with io.StringIO() as buf, redirect_stdout(buf):
-                print("<pre>")
                 try:
                     self.work_text()
                 except Exception as e:
+                    print("<pre>")
                     print(traceback.format_exc())
-                print("</pre>")
+                    print("</pre>")
                 self.wfile.write(buf.getvalue().encode('utf-8'))
 
     def work_text(self):
