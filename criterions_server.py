@@ -10,6 +10,7 @@ from criterions import *
 from print_server import *
 
 import argparse
+import os
 
 
 class Worker(PrintServer):
@@ -17,17 +18,21 @@ class Worker(PrintServer):
 
     def parse_path(self, path):
         array = path[len(self.prefix):].split(',')
-        data = [float(i) for i in array]
+        data = [float(i) for i in array]        
         return data
 
     def work_text(self):
-        if self.path.startswith(self.prefix):
-            data = self.parse_path(self.path)
+        if self.path == "/index.html":
+            a = os.path.realpath(__file__)
+            a = a[:a.rfind('/')]
+            print(open(a + '/index.html').read())
+        elif self.path.startswith(self.prefix):
+            print("<pre>");
+            data = self.parse_path(self.path)            
             print_result(data)
-            print('</pre><img src="{path}.png"><pre>'.format(path=self.path))
+            print('</pre><img src="{path}.png">'.format(path=self.path))
         else:
-            print("Request has no '{}'".format(prefix))
-
+            raise Exception("Request has no '{}'".format(self.prefix))
     def work_png(self):
         if self.path.startswith(self.prefix):
             data = self.parse_path(self.path[:-4])
@@ -45,7 +50,7 @@ class Worker(PrintServer):
 
             return result
         else:
-            raise Exception("Request has no '{}'".format(prefix))
+            raise Exception("Request has no '{}'".format(self.prefix))
 
 
 def parse_args():
