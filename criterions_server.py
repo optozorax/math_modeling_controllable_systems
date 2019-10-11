@@ -31,8 +31,11 @@ class Worker(PrintServer):
     def work_png(self):
         if self.path.startswith(self.prefix):
             data = self.parse_path(self.path[:-4])
-            
-            graph = draw_figure(data)
+            h = Hodograph(data)
+            h.replace_s_with_iw()
+            h.calc_w_roots()
+            h.build_table()
+            graph = h.draw_hodograph()
 
             buf = io.BytesIO()
             graph.savefig(buf, format='png')
