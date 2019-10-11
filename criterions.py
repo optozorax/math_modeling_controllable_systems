@@ -2,6 +2,8 @@ from texttable import Texttable
 from math import ceil
 import numpy as np
 
+import matplotlib.pyplot as plt
+
 
 def pretty_print(matrix):
 	t = Texttable(100000)
@@ -17,7 +19,7 @@ class RausCriterion:
 	def __init__(self, data):
 		# Откуда берутся эти размеры?
 		# Я правильно написал?
-		self.width = ceil(len(data))
+		self.width = int(len(data) / 2 + len(data) % 2)
 		self.height = len(data)
 		self.guaranteed_not = False
 
@@ -185,6 +187,8 @@ class Hodograph:
 
 
 def print_result(data):
+	np.set_printoptions(linewidth=100000)
+
 	print("Вычисление по алгебраическому критерию: ")
 	table = RausCriterion(data)
 	table.calc_table()
@@ -207,3 +211,10 @@ def print_result(data):
 	table.calc_w_roots()
 	table.build_table()
 	table.print_table()
+
+
+def draw_figure(data):
+	plt.figure()
+	plt.plot(data)
+	plt.title("{}".format(data))
+	return plt

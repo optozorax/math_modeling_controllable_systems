@@ -9,20 +9,50 @@
 from criterions import *
 from print_server import *
 
+import argparse
+
 
 class Worker(PrintServer):
-    def work(self):
-        prefix = '/calc_criterion/'
-        if self.path.startswith(prefix):
-            array = self.path[len(prefix):].split(',')
-            data = [float(i) for i in array]
+    prefix = '/calc_criterion/'
+
+    def parse_path(self, path):
+        array = path[len(self.prefix):].split(',')
+        data = [float(i) for i in array]
+        return data
+
+    def work_text(self):
+        if self.path.startswith(self.prefix):
+            data = self.parse_path(self.path)
             print_result(data)
         else:
             print("Request has no '{}'".format(prefix))
 
+    def work_png(self):
+        if self.path.startswith(self.prefix):
+            data = self.parse_path(self.path[:-4])
+            
+            graph = draw_figure(data)
+
+            buf = io.BytesIO()
+            graph.savefig(buf, format='png')
+            buf.seek(0)
+            result = buf.getvalue()
+            buf.close()
+
+            return result
+        else:
+            raise Exception("Request has no '{}'".format(prefix))
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--port', default=80, type=int)
+    return parser.parse_args()
+
 
 def main():
-	start_server(Worker)
+    args = parse_args()
+    start_server(Worker, args.port)
 
 
 if __name__ == "__main__":
