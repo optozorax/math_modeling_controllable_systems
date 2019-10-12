@@ -92,7 +92,7 @@ class HurwitsCriterion:
 		for i in self.determinants:
 			if i <= 0:
 				return False
-		return True		
+		return True
 
 
 class Hodograph:
@@ -187,8 +187,7 @@ class Hodograph:
 
 	def draw_hodograph(self):
 		titleString = 'Годограф Михайлова'
-		saveName = 'hodograph'
-		fig, axes = plt.subplots() 
+		fig, axes = plt.subplots()
 		x = [row[1] for row in self.table]
 		y = [row[2] for row in self.table]
 		x_new = []
@@ -203,10 +202,16 @@ class Hodograph:
 			y_ticks += elem
 			y_ticks -= elem
 
-		new_points = 5
+		new_points_count = 4
 		for i in range(len(x) - 1):
-			x_new += (np.arange(x[i], x[i+1], (x[i+1]-x[i]) / new_points).tolist())
-			y_new += (np.arange(y[i], y[i+1], (y[i+1]-y[i]) / new_points).tolist())
+			if x[i] != x[i+1]:
+				x_new += (np.arange(x[i], x[i+1], (x[i+1]-x[i]) / new_points_count).tolist())
+			else:
+				x_new += [0.0 for x in range(new_points_count)
+			if y[i] != y[i+1]:
+				y_new += (np.arange(y[i], y[i+1], (y[i+1]-y[i]) / new_points_count).tolist())
+			else:
+				y_new += [0.0 for y in range(new_points_count)
 		x_new.append( x[len(x) - 1] )
 		y_new.append( y[len(y) - 1] )
 
