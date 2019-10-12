@@ -253,4 +253,3 @@ def print_result(data):
 	table.calc_w_roots()
 	table.build_table()
 	table.print_table()
-	#table.draw_hodograph()

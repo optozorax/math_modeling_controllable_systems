@@ -1,3 +1,4 @@
+git pull
 ./stop
 echo "Stopped"
 sleep 1

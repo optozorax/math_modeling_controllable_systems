@@ -11,37 +11,30 @@ import time
 
 class PrintServer(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
-        if self.path.endswith(".png"):
-            self.send_response(HTTPStatus.OK)
-            
-            buf = list()
+        self.send_response(HTTPStatus.OK)
+        self.content_type = 'text/html; charset=utf-8'
+        with io.StringIO() as buf, redirect_stdout(buf):
+            returnedbuf = None
             try:
-                buf = self.work_png()
-                self.send_header('content-type','image/png')
-                self.send_header('content-length','{}'.format(len(buf)))
-                self.end_headers()
+                returnedbuf = self.work()
             except Exception as e:
-                buf = traceback.format_exc().encode('utf-8')
+                print("<pre>")
+                print(traceback.format_exc())
+                print("</pre>")
 
-            self.wfile.write(buf)
-        else:
-            self.send_response(HTTPStatus.OK)
-            self.send_header('content-type','text/html; charset=utf-8')
+            resultbuf = None
+            if returnedbuf is not None:
+                resultbuf = returnedbuf
+            else:
+                resultbuf = buf.getvalue().encode('utf-8')
+
+            self.send_header('content-type', self.content_type)
+            self.send_header('content-length','{}'.format(len(resultbuf)))
             self.end_headers()
-            with io.StringIO() as buf, redirect_stdout(buf):
-                try:
-                    self.work_text()
-                except Exception as e:
-                    print("<pre>")
-                    print(traceback.format_exc())
-                    print("</pre>")
-                self.wfile.write(buf.getvalue().encode('utf-8'))
+            self.wfile.write(resultbuf)
 
-    def work_text(self):
-        print("Not realized method 'work_text'")
-
-    def work_png(self):
-        return "Not realized method 'work_png'".encode('utf-8')
+    def work(self):
+        print("Not realized method 'work'")
 
 
 def start_server(worker_type, port=80):

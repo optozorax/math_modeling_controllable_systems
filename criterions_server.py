@@ -21,18 +21,29 @@ class Worker(PrintServer):
         data = [float(i) for i in array]
         return data
 
-    def work_text(self):
-        if self.path == "/index.html":
-            a = os.path.realpath(__file__)
-            a = a[:a.rfind('/')]
-            print(open(a + '/index.html').read())
+    def print_file(self, filename):
+        a = os.path.realpath(__file__)
+        a = a[:a.rfind('/')]
+        print(open(a + '/' + filename).read())
+
+    def work(self):
+        if self.path == "/index.html" or self.path == "/":
+            self.print_file("index.html")
+        elif self.path == "/main.js":
+            self.print_file("main.js")
+            self.content_type = 'application/javascript'
+        elif self.path == "/style.css":
+            self.print_file("style.css")
+            self.content_type = 'text/css'
+        elif self.path.endswith(".png"):
+            return self.work_png()
         elif self.path.startswith(self.prefix):
             print("<pre>");
             data = self.parse_path(self.path)
             print_result(data)
-            print('</pre><img src="{path}.png" width="100%">'.format(path=self.path))
+            print('</pre><img src="{path}.png" style="max-width: 100%; width: 500px;">'.format(path=self.path))
         else:
-            raise Exception("Request has no '{}'".format(self.prefix))
+            raise Exception("404: resource not found".format(self.prefix))
 
     def work_png(self):
         if self.path.startswith(self.prefix):
@@ -49,6 +60,8 @@ class Worker(PrintServer):
             buf.seek(0)
             result = buf.getvalue()
             buf.close()
+
+            self.content_type = "image/png"
 
             return result
         else:

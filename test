@@ -1,3 +1,5 @@
 fuser -k 6666/tcp
 echo "Sucessfully killed process using 6666 port"
 ./criterions_server.py --port 6666
+fuser -k 6666/tcp
+echo "Sucessfully killed process using 6666 port"
