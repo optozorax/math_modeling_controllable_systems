@@ -207,11 +207,11 @@ class Hodograph:
 			if x[i] != x[i+1]:
 				x_new += (np.arange(x[i], x[i+1], (x[i+1]-x[i]) / new_points_count).tolist())
 			else:
-				x_new += [0.0 for x in range(new_points_count)
+				x_new += [0.0 for x in range(new_points_count)]
 			if y[i] != y[i+1]:
 				y_new += (np.arange(y[i], y[i+1], (y[i+1]-y[i]) / new_points_count).tolist())
 			else:
-				y_new += [0.0 for y in range(new_points_count)
+				y_new += [0.0 for y in range(new_points_count)]
 		x_new.append( x[len(x) - 1] )
 		y_new.append( y[len(y) - 1] )
 
