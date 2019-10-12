@@ -1,5 +1,27 @@
-fuser -k 6666/tcp
-echo "Sucessfully killed process using 6666 port"
-./criterions_server.py --port 6666
-fuser -k 6666/tcp
-echo "Sucessfully killed process using 6666 port"
+#!/bin/sh
+
+UPSTREAM=${1:-'@{u}'}
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse "$UPSTREAM")
+BASE=$(git merge-base @ "$UPSTREAM")
+
+kill_servers() {
+	fuser -k 6666/tcp
+	echo "Sucessfully killed process using 6666 port"
+}
+
+myInterruptHandler() {
+    kill_servers
+}
+trap myInterruptHandler INT
+
+git fetch > /dev/null
+if [ $LOCAL = $REMOTE ] || [ $REMOTE = $BASE ]; then
+	echo "Repository up-to-date"
+	kill_servers
+	./criterions_server.py --port 6666
+elif [ $LOCAL = $BASE ]; then
+	echo "Need to 'git pull' before testing"
+else
+	echo "Diverged"
+fi
