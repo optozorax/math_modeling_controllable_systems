@@ -1,3 +1,5 @@
+git reset --hard
+echo "Discarded local changes!"
 git pull
 ./stop
 echo "Stopped"
