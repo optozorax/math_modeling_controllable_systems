@@ -120,7 +120,7 @@ class Hodograph:
 
 	def print_X_and_Y(self):
 		# Небольшие костыли с terms[3:] и terms[1] == '-'
-		print("\nПроведём замену D(s) = D(iw) и получим:")
+		print("Проведём замену D(s) = D(iw) и получим:")
 		print("X(w) = ", end="")
 		terms = ""
 		n = len(self.k_X)
@@ -148,11 +148,13 @@ class Hodograph:
 			print(terms[3:], " = 0")
 
 	def calc_w_roots(self):
-		self.w_X_roots = np.roots(self.k_X)
-		self.w_Y_roots = np.roots(self.k_Y)
+		self.w_X_roots = list(set(np.roots(self.k_X).round(decimals=3)))
+		self.w_Y_roots = list(set(np.roots(self.k_Y).round(decimals=3)))
 		self.w_X_roots = list(filter(lambda a: a.real >= 0 and a.imag == 0, self.w_X_roots))
 		self.w_Y_roots = list(filter(lambda a: a.real >= 0 and a.imag == 0, self.w_Y_roots))
-		print("\nНайдём корни w:")
+		self.w_X_roots = np.real(self.w_X_roots)
+		self.w_Y_roots = np.real(self.w_Y_roots)
+		print("Найдём корни w:")
 		print("по X = 0: ", self.w_X_roots)
 		print("по Y = 0: ", self.w_Y_roots)
 
@@ -182,11 +184,10 @@ class Hodograph:
 		newtable = [['w'] + ['X(w)'] + ['Y(w)']]
 		for row in self.table:
 			newtable.append(row)
-		print('\nТаблица для построения годографа: ')
+		print('Таблица для построения годографа: ')
 		pretty_print(newtable)
 
 	def draw_hodograph(self):
-		titleString = 'Годограф Михайлова'
 		fig, axes = plt.subplots()
 		x = [row[1] for row in self.table]
 		y = [row[2] for row in self.table]
@@ -219,7 +220,6 @@ class Hodograph:
 		for i in range(len(x)):
 			plt.scatter(x[i], y[i], c='black')
 
-		plt.title(titleString, fontsize=18)
 		plt.xlabel('X', fontsize=10)
 		plt.ylabel('Y', fontsize=10)
 		plt.xscale('symlog', linthreshy=0.2)
@@ -231,6 +231,24 @@ class Hodograph:
 		plt.tick_params(axis='both', labelsize=8)
 		plt.grid(alpha=0.4)
 		return plt
+
+
+	def check_criterion(self):
+		for i in range(0, len(self.table), 4): # ox +
+			if self.table[i][1] <= 0 or abs(self.table[i][2]) > 0.01:
+				return False
+		for i in range(1, len(self.table), 4): # oy -
+			if self.table[i][2] <= 0 or abs(self.table[i][1]) > 0.01:
+				return False
+		for i in range(2, len(self.table), 4): # ox -
+			if self.table[i][1] >= 0 or abs(self.table[i][2]) > 0.01:
+				return False
+		for i in range(3, len(self.table), 4): # oy -
+			if self.table[i][2] >= 0 or abs(self.table[i][1]) > 0.01:
+				return False
+
+		return True
+
 
 
 def print_result(data):
@@ -252,9 +270,15 @@ def print_result(data):
 	print("")
 
 	print("Вычисление по критерию Михайлова: ")
+	print("Внимание! Критерий может отобраться неправильно")
+	print("Критерий устойчивости:")
+	print("- начинается  в положительной оси")
+	print("- вращение против часовой")
+	print("- проходит {} квадратов".format(len(data) - 1))
 	table = Hodograph(data)
 	table.replace_s_with_iw()
 	table.print_X_and_Y()
 	table.calc_w_roots()
 	table.build_table()
 	table.print_table()
+	print("Это устойчивая схема? {}".format(table.check_criterion()))
