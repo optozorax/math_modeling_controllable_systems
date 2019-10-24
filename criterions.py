@@ -4,7 +4,7 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-
+# Yo
 def pretty_print(matrix):
 	t = Texttable(100000)
 	t.add_rows(matrix)
