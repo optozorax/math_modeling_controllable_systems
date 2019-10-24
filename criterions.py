@@ -85,6 +85,7 @@ class HurwitsCriterion:
 			minor = numpy_matrix[0:i, 0:i]
 			self.determinants.append(np.linalg.det(minor))
 
+			print("Delta " + str(i) + ":")
 			print(minor)
 			print("Determinant: ", self.determinants[-1])
 
@@ -258,27 +259,36 @@ def print_result(data):
 	table = RausCriterion(data)
 	table.calc_table()
 	table.print()
-	print("Это устойчивая схема? {}".format(table.check_criterion()))
+	if (table.check_criterion):
+		print("Это устойчивая схема.")
+	else:
+		print("Это неустойчивая схема.")
 
 	print("")
 
 	print("Вычисление по критерию Гурвица: ")
 	matrix = HurwitsCriterion(data)
 	matrix.calc_determinants()
-	print("Это устойчивая схема? {}".format(matrix.check_criterion()))
+	if (matrix.check_criterion):
+		print("Это устойчивая схема.")
+	else:
+		print("Это неустойчивая схема.")
 
 	print("")
 
 	print("Вычисление по критерию Михайлова: ")
 	print("Внимание! Критерий может отобраться неправильно")
 	print("Критерий устойчивости:")
-	print("- начинается  в положительной оси")
-	print("- вращение против часовой")
-	print("- проходит {} квадратов".format(len(data) - 1))
+	print("- начинается на положительной полуоси абсцисс")
+	print("- вращение против часовой стрелки вокруг начала координат")
+	print("- проходит {} квадрантов".format(len(data) - 1))
 	table = Hodograph(data)
 	table.replace_s_with_iw()
 	table.print_X_and_Y()
 	table.calc_w_roots()
 	table.build_table()
 	table.print_table()
-	print("Это устойчивая схема? {}".format(table.check_criterion()))
+	if (table.check_criterion):
+		print("Это устойчивая схема.")
+	else:
+		print("Это неустойчивая схема.")
