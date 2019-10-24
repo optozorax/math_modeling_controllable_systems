@@ -47,7 +47,7 @@ def start_server(worker_type, port=80):
                 break
             print("Waiting a {} second for port {}".format(i, port))
             time.sleep(1)
-        except Exception:
-            server.shutdown()
+        except KeyboardInterrupt:
+            httpd.shutdown()
             print("Sucessfully shutdown server")
-            pass
+            break

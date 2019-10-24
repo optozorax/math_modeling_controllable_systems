@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+</head>
+<body>
+	<table>
+		<tr>
+		<td colspan="5">
+				<center><a href="https://github.com/optozorax/math_modeling_controllable_systems">Исходный код на github.</a></center>
+			</td>
+		</tr><tr>
+			<th colspan="5">
+				Калькулятор для решения системы дифференциальных уравнений
+			</th>
+		</tr><tr>
+			<td>
+				Матрица
+			</td><td>
+				Размеры
+			</td><td>
+				Значения слева-направо<br>сверху-вниз
+			</td><td>
+				
+			</td><td>
+				
+			</td>
+		</tr><tr>
+			<td>
+				A:<br>
+				G:<br>
+				X<sub>0</sub>:<br>
+				C:<br>
+			</td><td>
+				<input class="sz" id="inputAsize" type="text" value="2,2"><br>
+				<input class="sz" id="inputGsize" type="text" value="1,2"><br>
+				<input class="sz" id="inputX0size" type="text" value="1,2"><br>
+				<input class="sz" id="inputCsize" type="text" value="2,1"><br>
+			</td><td>
+				<input id="inputA" type="text" value="1,2,2,1"><br>
+				<input id="inputG" type="text" value="exp(t),0"><br>
+				<input id="inputX0" type="text" value="1,1"><br>
+				<input id="inputC" type="text" value="1,1"><br>
+			</td><td>
+				<button onclick="diffur_update();">Рассчитать</button>
+			</td><td>
+				<button onclick="to_insert_clear();">Очистить</button>
+			</td>
+		</tr>
+	</table>
+	<br>
+	<div id="to_insert"></div>
+	<script src="main.js"></script>
+</body>
+</html>

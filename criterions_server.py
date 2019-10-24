@@ -8,6 +8,7 @@
 # Локальные файлы
 from criterions import *
 from print_server import *
+from diffur import *
 
 import argparse
 import os
@@ -15,6 +16,7 @@ import os
 
 class Worker(PrintServer):
     prefix = '/calc_criterion/'
+    prefix_diffur = '/calc_diffur/'
 
     def parse_path(self, path):
         array = path[len(self.prefix):].split(',')
@@ -29,6 +31,8 @@ class Worker(PrintServer):
     def work(self):
         if self.path == "/index.html" or self.path == "/":
             self.print_file("index.html")
+        elif self.path == "/diffur.html":
+            self.print_file("diffur.html")
         elif self.path == "/main.js":
             self.print_file("main.js")
             self.content_type = 'application/javascript'
@@ -42,8 +46,10 @@ class Worker(PrintServer):
             data = self.parse_path(self.path)
             print_result(data)
             print('</pre><img src="{path}.png" style="max-width: 100%; width: 500px;">'.format(path=self.path))
+        elif self.path.startswith(self.prefix_diffur):
+            calc_diffur(self.path[len(self.prefix_diffur):])
         else:
-            raise Exception("404: resource not found".format(self.prefix))
+            raise Exception("404: resource '{}' not found".format(self.path, self.prefix))
 
     def work_png(self):
         if self.path.startswith(self.prefix):
