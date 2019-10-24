@@ -255,6 +255,7 @@ class Hodograph:
 def print_result(data):
 	np.set_printoptions(linewidth=100000)
 
+	#das
 	print("Вычисление по алгебраическому критерию: ")
 	table = RausCriterion(data)
 	table.calc_table()
