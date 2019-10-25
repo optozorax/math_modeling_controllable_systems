@@ -31,6 +31,8 @@ class Worker(PrintServer):
     def work(self):
         if self.path == "/index.html" or self.path == "/":
             self.print_file("index.html")
+        elif self.path =="/algebraiccriterions.html":
+            self.print_file("algebraiccriterions.html")
         elif self.path == "/diffur.html":
             self.print_file("diffur.html")
         elif self.path == "/main.js":
@@ -86,5 +88,5 @@ def main():
 
 
 if __name__ == "__main__":
-	main()
+    main()
 
