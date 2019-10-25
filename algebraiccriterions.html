@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<table>
+		<tr>
+		<td colspan="3">
+				<center><a href="https://github.com/optozorax/math_modeling_controllable_systems">Исходный код на github.</a></center>
+			</td>
+		</tr><tr>
+			<th colspan="3">
+				Калькулятор для расчёта критериев устойчивости чего-то
+			</th>
+		</tr><tr>
+			<td>
+				<input id="input" type="text" value="1,4,6,4,1">
+			</td><td>
+				<button onclick="criterion_update();">Рассчитать</button>
+			</td><td>
+				<button onclick="criterion_clear();">Очистить</button>
+			</td>
+		</tr>
+	</table>
+	<div id="to_insert"></div>
+	<script src="main.js"></script>
+</body>
+</html>
