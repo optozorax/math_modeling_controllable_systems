@@ -1,6 +1,8 @@
 git reset --hard
 echo "Discarded local changes!"
 git pull
+./reload_nginx
+echo "nginx reloaded"
 ./stop
 echo "Stopped"
 sleep 1

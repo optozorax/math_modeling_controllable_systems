@@ -16,7 +16,11 @@ class PrintServer(http.server.SimpleHTTPRequestHandler):
         with io.StringIO() as buf, redirect_stdout(buf):
             returnedbuf = None
             try:
-                returnedbuf = self.work()
+                result = self.work()
+                if result is not None:
+                    (returnedbuf, content_type) = result
+                    if content_type is not None:
+                        self.content_type = content_type
             except Exception as e:
                 print("<pre>")
                 print(traceback.format_exc())
@@ -37,7 +41,7 @@ class PrintServer(http.server.SimpleHTTPRequestHandler):
         print("Not realized method 'work'")
 
 
-def start_server(worker_type, port=80):
+def start_server(worker_type, port=81):
     for i in range(100):
         try:
             httpd = socketserver.TCPServer(('', port), worker_type)
@@ -49,5 +53,5 @@ def start_server(worker_type, port=80):
             time.sleep(1)
         except KeyboardInterrupt:
             httpd.shutdown()
-            print("Sucessfully shutdown server")
+            print("\nSucessfully shutdown server")
             break

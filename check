@@ -1,1 +1,2 @@
-curl "localhost:80/calc_criterion/1,2,3,5"
+curl "localhost:81/calc_criterion/1,2,3,5"
+curl "localhost:81/calc_diffur/2,2,1,2,2,1,1,2,exp(t),0,1,2,1,1,2,1,1,1"

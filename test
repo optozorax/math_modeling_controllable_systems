@@ -6,8 +6,8 @@ REMOTE=$(git rev-parse "$UPSTREAM")
 BASE=$(git merge-base @ "$UPSTREAM")
 
 kill_servers() {
-	fuser -k 6666/tcp
-	echo "Sucessfully killed process using 6666 port"
+	fuser -k 6667/tcp
+	echo "Sucessfully killed process using 6667 port"
 }
 
 myInterruptHandler() {
@@ -19,7 +19,7 @@ git fetch > /dev/null
 if [ $LOCAL = $REMOTE ] || [ $REMOTE = $BASE ]; then
 	echo "Repository up-to-date"
 	kill_servers
-	./criterions_server.py --port 6666
+	./criterions_server.py --port 6667
 elif [ $LOCAL = $BASE ]; then
 	echo "Need to 'git pull' before testing"
 else
