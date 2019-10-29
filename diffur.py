@@ -35,7 +35,7 @@ def calc_diffur(string):
 	tau = symbols('tau')
 
 	# Символьные вычисления
-	P, D = A.diagonalize()
+	P, D = A.jordan_form()
 	P1 = P**-1
 	DE = exp(D)
 	AED = P*DE*P1
