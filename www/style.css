@@ -13,6 +13,10 @@ input {
 
 body {
 	font-family: Segoe UI;
+	margin-top: 8px;
+	margin-right: 8px;
+	margin-bottom: 8px;
+	margin-left: 8px;
 }
 
 table {
@@ -113,4 +117,10 @@ button[disabled], button[disabled]:hover, button[disabled]:active{
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   text-shadow: none !important;
+}
+
+h3 {
+  font-size: 1.75rem;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
 }
