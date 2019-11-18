@@ -58,7 +58,7 @@ sudo apt install nginx
 	server {
 		listen 80 default_server;
 		listen [::]:80 default_server;
-	```
+	``` 
 * **Добавить конфигурации для сервера:**
 	В файле `/etc/nginx/nginx.conf` добавляем строки внутри окружения `http`:
 	```
