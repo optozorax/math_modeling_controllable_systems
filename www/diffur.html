@@ -1,44 +1,100 @@
-<!--# include file="header.html" -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="diffur.css">
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+</head>
+
 <body>
-	<a href="index.html">На главную.</a><br><br>
-	<table>
-		<tr>
-			<td colspan="4"><center><b>
-				Калькулятор для решения системы дифференциальных уравнений
-			</b></center></td>
-		</tr><tr>
-			<td>
-				Матрица
-			</td><td>
-				Размеры
-			</td><td>
-				Значения слева-направо<br>сверху-вниз
-			</td><td>
-				Действия
-			</td>
-		</tr><tr>
-			<td>
-				A:<br>
-				G:<br>
-				X<sub>0</sub>:<br>
-				C:<br>
-			</td><td>
-				<input class="sz" id="inputAsize" type="text" value="2,2"><br>
-				<input class="sz" id="inputGsize" type="text" value="1,2"><br>
-				<input class="sz" id="inputX0size" type="text" value="1,2"><br>
-				<input class="sz" id="inputCsize" type="text" value="2,1"><br>
-			</td><td>
-				<input id="inputA" type="text" value="1,2,2,1"><br>
-				<input id="inputG" type="text" value="exp(t),0"><br>
-				<input id="inputX0" type="text" value="1,1"><br>
-				<input id="inputC" type="text" value="1,1"><br>
-			</td><td>
-				<button style="min-width: 150px;" onclick="diffur_update();">Рассчитать</button><br><br>
-				<button style="min-width: 150px;" onclick="to_insert_clear();">Очистить</button>
-			</td>
+	<a href="index.html">На главную.</a><br>
+	<a href="diffur_theory.html">Теория</a><br>
+
+	<h3>Калькулятор для решения системы дифференциальных уравнений</h3>
+	<h5>A:</h5>
+	
+	<table id="matrix_A">
+		<tr id="matrix_row">
+			<td><input type="button" id="defsize" value="default" onclick="set_default_table_size('matrix_A');"></td>
+			<td><input type="button" id="remcol" value="-" onclick="dec_width('matrix_A');"></td>
+			<td><input type="button" id="addcol" value="+" onclick="inc_width('matrix_A');"></td>
+		</tr>
+		<tr id="matrix_row">
+			<td><input type="button" id="remrow" value="-" onclick="dec_height('matrix_A');"></td>
+			<td><input type="text" value="1"></td>
+			<td><input type="text" value="2"></td>
+		</tr>
+		<tr id="matrix_row">
+			<td><input type="button" id="addrow" value="+" onclick="inc_height('matrix_A');"></td>
+			<td><input type="text" value="2"></td>
+			<td><input type="text" value="1"></td>
 		</tr>
 	</table>
 	<br>
+
+	<h5>G</h5>
+	<table id="matrix_G">
+		<tr id="matrix_row">
+			<td><input type="button" id="defsize" value="default" onclick="set_default_table_size('matrix_G');"></td>
+			<td><input type="button" id="remcol" value="-" onclick="dec_width('matrix_G');"></td>
+			<td><input type="button" id="addcol" value="+" onclick="inc_width('matrix_G');"></td>
+		</tr>
+		<tr id="matrix_row">
+			<td><input type="button" id="remrow" value="-" onclick="dec_height('matrix_G');"></td>
+			<td><input type="text" value="exp(t)"></td>
+			<td><input type="text" value="0"></td>
+		</tr>
+		<tr id="matrix_row">
+			<td><input type="button" id="addrow" value="+" onclick="inc_height('matrix_G');"></td>
+		</tr>
+	</table>
+	<br>
+	
+
+	<h5>X_0</h5>
+	<table id="matrix_X0">
+		<tr id="matrix_row">
+			<td><input type="button" id="defsize" value="default" onclick="set_default_table_size('matrix_X0');"></td>
+			<td><input type="button" id="remcol" value="-" onclick="dec_width('matrix_X0');"></td>
+			<td><input type="button" id="addcol" value="+" onclick="inc_width('matrix_X0');"></td>
+		</tr>
+		<tr id="matrix_row">
+			<td><input type="button" id="remrow" value="-" onclick="dec_height('matrix_X0');"></td>
+			<td><input type="text" value="1"></td>
+			<td><input type="text" value="1"></td>
+		</tr>
+		<tr id="matrix_row">
+			<td><input type="button" id="addrow" value="+" onclick="inc_height('matrix_X0');"></td>
+		</tr>
+	</table>
+	<br>
+	
+
+	<h5>C</h5>
+	<table id="matrix_C">
+		<tr id="matrix_row">
+			<td><input type="button" id="defsize" value="default" onclick="set_default_table_size('matrix_C');"></td>
+			<td><input type="button" id="remcol" value="-" onclick="dec_width('matrix_C');"></td>
+			<td><input type="button" id="addcol" value="+" onclick="inc_width('matrix_C');"></td>
+		</tr>
+		<tr id="matrix_row">
+			<td><input type="button" id="remrow" value="-" onclick="dec_height('matrix_C');"></td>
+			<td><input type="text" value="1"></td>
+		</tr>
+		<tr id="matrix_row">
+			<td><input type="button" id="addrow" value="+" onclick="inc_height('matrix_C');"></td>
+			<td><input type="text" value="1"></td>
+		</tr>
+	</table>
+	<br>
+	
+
+	<input type="button" style="min-width: 200px;" value="Рассчитать" onclick="diffur_update();">
+	<br>
+	<br>
+
 	<div id="to_insert"></div>
 	<script src="main.js"></script>
 	<!--# include file="metrica.html" -->

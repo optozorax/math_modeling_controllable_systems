@@ -1,0 +1,134 @@
+<!--# include file="header.html" -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <a href="index.html">На главную.</a>
+    <br>
+    <br>
+
+    <h1>Получение из передаточной функции из ДУ</h1>
+
+    Преобразуем передаточную функцию в уравнение состояния:
+    <br>
+    <br>
+\(
+    \begin{align*}
+	&w(s) = \frac{10(0.1s + 1)}{s(s+1)(0.5s + 1)} \\
+
+	&y = w(s) \cdot u = \frac{10(0.1s + 1)u}{s(s+1)(0.5s + 1)} \\
+
+	&(0.5s^3 + 1.5s^2 + s)y = (s + 10)u \\
+
+	&s := \frac{d}{dt} \\
+
+	&0.5y''' + 1.5y'' + y' = u' + 10u \\
+
+	&y''' = 2[(u' + 10u) - (1.5y'' + y')]
+    \end{align*}	
+\)
+
+    <br>
+    <br>
+
+\(
+    \begin{cases}
+	&x_1 = y \\
+	&x_2 = y' \\
+	&x_3 = y''
+    \end{cases}
+\)
+
+    <br>
+    <br>
+
+\(
+    \begin{cases}
+	&x_1' = x_2 \\
+	&x_2' = x_3 \\
+	&x_3' = -(2x_2 + 3x_3) + (2g_1 + 20g_2)
+    \end{cases}
+\)
+
+    <br>
+    <br>
+
+\(
+	A = \begin{bmatrix}
+		0	&	1	&	0	\\
+		0	&	0	&	0	\\
+		0	&	-2	&	-3
+	\end{bmatrix}
+
+	B = \begin{bmatrix}
+		0	&	0	\\
+		0	&	0	\\
+		2	&	20
+	\end{bmatrix}
+
+	G = \begin{bmatrix}
+		g_1	\\
+		g_2
+	\end{bmatrix}
+\)
+    <br>
+    <br>
+
+
+    Преобразуем уравнение состояния в передаточную функцию:
+    <br>
+    <br>
+
+\(
+X' = A \cdot X(t) + B \cdot u(t)
+\)
+    <br>
+    <br>
+
+\(  
+	A = \begin{bmatrix}
+		0	&	1	\\
+		-0.5	&	0
+	\end{bmatrix}
+
+	B = \begin{bmatrix}
+		0	\\
+		1
+	\end{bmatrix}
+\)
+    <br>
+    <br>
+
+\(
+    \begin{cases}
+	&x_1' = x_2 \\
+	&x_2' = -0.5x_1 + g_2
+    \end{cases}
+\)
+    <br>
+    <br>
+
+\(
+    \begin{align*}
+	&y'' = -0.5y + u \\
+	&y'' + 0.5y = u \\
+	&(s^2 + 0.5s)y = u \\
+	&y = w(s)u  = \frac{2u}{2s^2+1}
+    \end{align*}
+\)
+
+
+
+</body>
+
+</html>
+

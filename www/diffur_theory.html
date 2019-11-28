@@ -1,0 +1,57 @@
+<!--# include file="header.html" -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <a href="index.html">На главную.</a>
+    <br>
+    <br>
+    
+    <h1>Решение системы ДУ</h1>
+
+
+
+    <h3>Через Жорданову форму</h3>
+
+\(
+    \begin{aligned}
+	A &= P \cdot J \cdot P^{-1} \\
+	exp(A) &= P \cdot exp(J) \cdot P^{-1} \\
+	\Phi(\tau) &= \exp\{A\cdot \tau\} \\
+	\mathbf{X} &= \Phi(t)\cdot\mathbf{X}(0)+\int_0^t \Phi(t-\tau)\cdot G(t) d\tau \\
+	\mathbf{Y}(t) &= C\cdot \mathbf{X}(t)
+    \end{aligned}   
+\)
+    <br>
+
+    <h3>Через интерполяционный многочлен Лагранжа-Сильвестра</h3>
+
+    <br>
+
+    <h3>Через основную формулу</h3>
+
+    \(
+        f(J_r(\lambda_0)) = \begin{bmatrix}
+            f(\lambda_0)	& \frac{1}{1!} f'(\lambda_0)	& . & \frac{1}{(r-1)!} f^{(r-1)}(\lambda_0) \\
+			0 				& f(\lambda_0)				& . & \frac{1}{(r-2)!} f^{(r-2)}(\lambda_0) \\
+            .				& . 						& . & . 									\\
+            0				& 0							& . & f(\lambda_0)
+        \end{bmatrix}
+    \)
+
+
+
+
+</body>
+
+</html>
+
